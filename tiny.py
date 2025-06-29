@@ -171,8 +171,8 @@ model = load_model("YOLOv3-tiny.h5", compile=False)
 cam_port = 0
 cam = cv2.VideoCapture(cam_port)
 
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 416)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 416)
+#cam.set(cv2.CAP_PROP_FRAME_WIDTH, 416)
+#cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 416)
 
 anchors = [[81,82,  135,169,  344,319], [10,14,  23,27,  37,58]] #YOLOv3-tiny Anchors
 
@@ -204,6 +204,10 @@ while(1):
 	# reading the input using the camera 
 	time1 = time.time()
 	result, img = cam.read()
+	if not result or img is None:
+		print("Warning: Unable to read from camera.")
+		continue  # skip this iteration
+	img = cv2.resize(img, (416, 416))
 	""" cv2.imwrite('temp.jpg', img) """
 	""" cv2.waitKey(1)
 	cv2.imshow('Webcam Feed', img) """
